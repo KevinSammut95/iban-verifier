@@ -66,3 +66,15 @@ function isValidIBAN(iban) {
   return remainder === 1n;
 }
 document.getElementById("ibanInput").addEventListener("input", verifyIBAN);
+function resetForm() {
+  const ibanInput = document.getElementById("ibanInput");
+  const countryName = document.getElementById("countryName");
+  const result = document.getElementById("result");
+  const copyMessage = document.getElementById("copyMessage");
+
+  ibanInput.value = "";
+  ibanInput.style.border = "1px solid #ccc"; // reset to normal
+  countryName.textContent = "";
+  result.textContent = "";
+  copyMessage.classList.remove('show');
+}
