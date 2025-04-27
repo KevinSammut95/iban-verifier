@@ -1,67 +1,50 @@
-const countryCodes = {
-  'MT': 'Malta',
-  'GB': 'United Kingdom',
-  'DE': 'Germany',
-  'FR': 'France',
-  'IT': 'Italy',
-  'ES': 'Spain',
-  'NL': 'Netherlands',
-  'BE': 'Belgium',
-  'PT': 'Portugal',
-  'IE': 'Ireland',
-  'CH': 'Switzerland',
-  // You can add more countries if you want later
-};
 function verifyIBAN() {
-  const iban = document.getElementById("ibanInput").value.replace(/\s+/g, '').toUpperCase();
+  const ibanInput = document.getElementById("ibanInput");
+  const iban = ibanInput.value.trim().replace(/\s+/g, '');
+  const countryName = document.getElementById("countryName");
   const result = document.getElementById("result");
 
-  if (!/^[A-Z0-9]+$/.test(iban)) {
-    result.textContent = "Invalid characters in IBAN.";
-    result.style.color = "red";
+  if (iban.length < 2) {
+    result.textContent = "Please enter a valid IBAN.";
+    countryName.textContent = "";
+    ibanInput.style.border = "2px solid red";
     return;
   }
 
-  // Move the first 4 characters to the end
-  const rearranged = iban.slice(4) + iban.slice(0, 4);
+  const countryCode = iban.substring(0, 2).toUpperCase();
 
-  // Replace letters with numbers (A=10, B=11, ..., Z=35)
-  const converted = rearranged.split('').map(ch =>
-    isNaN(ch) ? ch.charCodeAt(0) - 55 : ch
-  ).join('');
+  const countries = {
+    MT: { name: "Malta", length: 31 },
+    DE: { name: "Germany", length: 22 },
+    FR: { name: "France", length: 27 },
+    IT: { name: "Italy", length: 27 },
+    ES: { name: "Spain", length: 24 },
+    GB: { name: "United Kingdom", length: 22 },
+  };
 
-  // Perform mod-97 check
-  const remainder = BigInt(converted) % 97n;
+  if (countries[countryCode]) {
+    const expectedLength = countries[countryCode].length;
+    countryName.textContent = "🌍 Country: " + countries[countryCode].name;
 
-  if (remainder === 1n) {
-    result.textContent = "✅ Valid IBAN!";
-    result.style.color = "green";
+    if (iban.length !== expectedLength) {
+      result.textContent = `⚠️ Invalid IBAN length. Expected ${expectedLength} characters.`;
+      ibanInput.style.border = "2px solid red";
+      return;
+    }
+
+    if (isValidIBAN(iban)) {
+      result.textContent = "✅ Valid IBAN!";
+      ibanInput.style.border = "2px solid green";
+    } else {
+      result.textContent = "❌ Invalid IBAN checksum.";
+      ibanInput.style.border = "2px solid red";
+    }
   } else {
-    result.textContent = "❌ Invalid IBAN.";
-    result.style.color = "red";
+    result.textContent = "❌ Unknown country code.";
+    countryName.textContent = "";
+    ibanInput.style.border = "2px solid red";
   }
 }
-function formatIBAN(input) {
-  // Remove all non-alphanumeric characters (like spaces)
-  let value = input.value.replace(/\W/gi, '').replace(/(.{4})/g, '$1 ').trim();
-  input.value = value.toUpperCase(); // Always show in uppercase
-}
-
-// Attach formatting as the user types
-document.getElementById("ibanInput").addEventListener('input', function() {
-  formatIBAN(this);
-
-  const iban = this.value.replace(/\s+/g, '').toUpperCase();
-  const countryCode = iban.slice(0, 2); // Get first two letters
-  const countryName = countryCodes[countryCode] || '';
-
-  const countryNameElement = document.getElementById("countryName");
-  if (countryName) {
-    countryNameElement.textContent = `🌍 Country: ${countryName}`;
-  } else {
-    countryNameElement.textContent = '';
-  }
-});
 function copyIBAN() {
   const ibanInput = document.getElementById("ibanInput");
   const copyMessage = document.getElementById("copyMessage");
@@ -76,4 +59,10 @@ function copyIBAN() {
     copyMessage.classList.remove('show');
   }, 2000);
 }
-
+function isValidIBAN(iban) {
+  const rearranged = iban.slice(4) + iban.slice(0, 4);
+  const converted = rearranged.toUpperCase().replace(/[A-Z]/g, (char) => char.charCodeAt(0) - 55);
+  const remainder = BigInt(converted) % 97n;
+  return remainder === 1n;
+}
+document.getElementById("ibanInput").addEventListener("input", verifyIBAN);
