@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>IBAN Verifier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+
   <h1>IBAN Verifier</h1>
-  <input type="text" id="ibanInput" placeholder="Enter IBAN number">
-  <button onclick="verifyIBAN()">Verify</button>
+
+  <input type="text" id="ibanInput" placeholder="Enter your IBAN">
+  <p id="countryName"></p>
+
+  <div>
+    <button onclick="verifyIBAN()">Verify</button>
+    <button onclick="copyIBAN()">Copy IBAN</button>
+  </div>
+
+  <p id="copyMessage">Copied!</p>
   <p id="result"></p>
-  
-  
-<p id="countryName"></p>
-
-  <!-- Placeholder for ads -->
-  <div id="ads">[Your ad goes here]</div>
-
-  <!-- Donation Button -->
-  <button onclick="alert('Donation feature coming soon!')">Donate</button>
 
   <script src="script.js"></script>
 </body>

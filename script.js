@@ -62,3 +62,18 @@ document.getElementById("ibanInput").addEventListener('input', function() {
     countryNameElement.textContent = '';
   }
 });
+function copyIBAN() {
+  const ibanInput = document.getElementById("ibanInput");
+  const copyMessage = document.getElementById("copyMessage");
+
+  ibanInput.select();
+  ibanInput.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+
+  copyMessage.classList.add('show');
+
+  setTimeout(() => {
+    copyMessage.classList.remove('show');
+  }, 2000);
+}
+
