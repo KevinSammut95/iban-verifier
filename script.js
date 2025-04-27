@@ -1,3 +1,17 @@
+const countryCodes = {
+  'MT': 'Malta',
+  'GB': 'United Kingdom',
+  'DE': 'Germany',
+  'FR': 'France',
+  'IT': 'Italy',
+  'ES': 'Spain',
+  'NL': 'Netherlands',
+  'BE': 'Belgium',
+  'PT': 'Portugal',
+  'IE': 'Ireland',
+  'CH': 'Switzerland',
+  // You can add more countries if you want later
+};
 function verifyIBAN() {
   const iban = document.getElementById("ibanInput").value.replace(/\s+/g, '').toUpperCase();
   const result = document.getElementById("result");
@@ -27,3 +41,24 @@ function verifyIBAN() {
     result.style.color = "red";
   }
 }
+function formatIBAN(input) {
+  // Remove all non-alphanumeric characters (like spaces)
+  let value = input.value.replace(/\W/gi, '').replace(/(.{4})/g, '$1 ').trim();
+  input.value = value.toUpperCase(); // Always show in uppercase
+}
+
+// Attach formatting as the user types
+document.getElementById("ibanInput").addEventListener('input', function() {
+  formatIBAN(this);
+
+  const iban = this.value.replace(/\s+/g, '').toUpperCase();
+  const countryCode = iban.slice(0, 2); // Get first two letters
+  const countryName = countryCodes[countryCode] || '';
+
+  const countryNameElement = document.getElementById("countryName");
+  if (countryName) {
+    countryNameElement.textContent = `🌍 Country: ${countryName}`;
+  } else {
+    countryNameElement.textContent = '';
+  }
+});
