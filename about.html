@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About IBAN - IBAN Verifier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="index.html">Home</a>
+      <a href="about.html">About IBAN</a>
+    </div>
+    <div class="nav-right">
+      <div class="dark-mode-toggle">
+        <span class="toggle-icon">🌞</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="darkModeToggle">
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-icon">🌙</span>
+      </div>
+    </div>
+  </nav>
+  
+  
+  <h1>About IBAN</h1>
+
+  <div class="about-container">
+    <p><strong>What is an IBAN?</strong></p>
+    <p>The IBAN (International Bank Account Number) is an internationally agreed system developed to identify bank accounts across borders. It standardizes the identification of bank accounts, simplifying and securing international banking transactions.</p>
+
+    <p><strong>What is an IBAN used for?</strong></p>
+    <p>IBANs are primarily used for sending and receiving international payments, ensuring that money reaches the correct account without errors. They help avoid delays, additional charges, and rejections that occur due to incorrect account information.</p>
+
+    <p><strong>Structure of an IBAN:</strong></p>
+    <ul>
+      <li><strong>Country Code:</strong> Two-letter ISO country code (e.g., MT for Malta).</li>
+      <li><strong>Check Digits:</strong> Two digits that validate the IBAN and prevent errors.</li>
+      <li><strong>Basic Bank Account Number (BBAN):</strong> Includes bank code and account number, structured by country-specific rules.</li>
+    </ul>
+
+    <p><strong>Examples of Valid IBANs:</strong></p>
+    <ul>
+      <li>Malta: <code>MT84 MALT 0110 0001 2345 MTLC AST0 01S</code></li>
+      <li>Germany: <code>DE89 3704 0044 0532 0130 00</code></li>
+      <li>France: <code>FR14 2004 1010 0505 0001 3M02 606</code></li>
+      <li>United Kingdom: <code>GB29 NWBK 6016 1331 9268 19</code></li>
+    </ul>
+
+    <p><strong>Important Notes:</strong></p>
+    <ul>
+      <li>An IBAN ensures that a format is correct but does not verify if an account is active or belongs to a real customer.</li>
+      <li>Always double-check the IBAN details with the beneficiary before making large transfers.</li>
+      <li>Using an incorrect IBAN can result in payments being delayed, returned, or even lost.</li>
+    </ul>
+
+    <p><strong>IBAN Verification Process:</strong></p>
+    <p>Our tool verifies that the structure of the IBAN is correct and that the checksum is valid according to international standards (ISO 13616). However, we cannot verify account ownership or real-time account status.</p>
+
+    <p><strong>Supported Countries:</strong></p>
+    <p>IBANs are used in Europe, the Middle East, the Caribbean, and other parts of the world. Examples of IBAN-using countries include Malta, Germany, France, Spain, Italy, United Kingdom, and many more.</p>
+
+    <p><em>Disclaimer: This tool provides structural validation only. It does not guarantee the existence of a specific bank account.</em></p>
+
+    <a href="index.html" class="back-button">⬅️ Back to IBAN Verifier</a>
+  </div>
+
+  <footer class="site-footer">
+  &copy; <span id="year"></span> IBAN Verifier. All rights reserved.
+  </footer>
+
+</body>
+</html>

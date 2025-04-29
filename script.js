@@ -1,3 +1,27 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const darkToggle = document.getElementById("darkModeToggle");
+
+  // Set toggle switch based on saved preference
+  if (localStorage.getItem("darkMode") === "enabled") {
+    document.body.classList.add("dark-mode");
+    if (darkToggle) darkToggle.checked = true;
+  }
+
+  // Listen for toggle switch changes
+  if (darkToggle) {
+    darkToggle.addEventListener("change", () => {
+      document.body.classList.toggle("dark-mode");
+
+      if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("darkMode", "enabled");
+      } else {
+        localStorage.setItem("darkMode", "disabled");
+      }
+    });
+  }
+});
+
+
 function verifyIBAN() {
   const ibanInput = document.getElementById("ibanInput");
   const iban = ibanInput.value.trim().replace(/\s+/g, '');
@@ -83,7 +107,7 @@ function verifyIBAN() {
 
   if (countries[countryCode]) {
     const expectedLength = countries[countryCode].length;
-    countryName.textContent = "🌍 Country: " + `${countries[countryCode].flag} ${countries[countryCode].name}`;
+    countryName.innerHTML = `🌍<strong> Country: ${countries[countryCode].flag} ${countries[countryCode].name}</strong>`;
 
     if (iban.length !== expectedLength) {
       result.textContent = `⚠️ Invalid IBAN length. Expected ${expectedLength} characters.`;
@@ -203,4 +227,12 @@ function formatIBAN() {
 function toggleDarkMode() {
   const body = document.body;
   body.classList.toggle("dark-mode");
+
+  // Save preference to localStorage
+  if (body.classList.contains("dark-mode")) {
+    localStorage.setItem("darkMode", "enabled");
+  } else {
+    localStorage.setItem("darkMode", "disabled");
+  }
 }
+
