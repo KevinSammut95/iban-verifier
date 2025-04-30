@@ -60,14 +60,17 @@ button:hover {
   margin-top: 10px;
   visibility: hidden;
   display: flex;
-  align-items: center;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically */
   gap: 5px;
+  text-align: center;      /* Center the text */
 }
 
 #copyMessage.show {
   opacity: 1;
   visibility: visible;
 }
+
 /* Smooth transitions */
 body {
   transition: background-color 0.5s, color 0.5s;
@@ -147,6 +150,10 @@ body.dark-mode button:hover {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.main-container {
+  animation: fadeIn 0.6s ease-in-out;
 }
 
 body {
@@ -428,4 +435,42 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(24px);
+}
+body.dark-mode .about-container {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  border: 1px solid #444;
+}
+
+body.dark-mode .about-container a {
+  color: #90caf9;
+}
+
+body.dark-mode .about-container strong {
+  color: #ffffff;
+}
+
+body.dark-mode .about-container code {
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+.main-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  font-size: 1.1em;
+  line-height: 1.6;
+  text-align: center;
+}
+
+body.dark-mode .main-container {
+  background-color: #2a2a2a;
+  color: #ddd;
+}
+.main-container {
+  animation: fadeIn 0.6s ease-in-out;
 }

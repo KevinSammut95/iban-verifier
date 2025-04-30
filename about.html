@@ -70,8 +70,17 @@
   </div>
 
   <footer class="site-footer">
-  &copy; <span id="year"></span> IBAN Verifier. All rights reserved.
+    &copy; <span id="year"></span> IBAN Verifier. All rights reserved.
   </footer>
+
+  <script>
+          // Update footer year
+      document.getElementById("year").textContent = new Date().getFullYear();
+    
+  </script>
+
+  <script src="script.js"></script>
+  <script src="darkmode.js"></script>
 
 </body>
 </html>
