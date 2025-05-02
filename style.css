@@ -480,3 +480,8 @@ body {
   padding-top: calc(var(--navbar-height) + 20px); /* Add padding below the navbar */
   transition: background-color var(--transition-speed), color var(--transition-speed);
 }
+@media (max-width: 600px) {
+  h1 {
+    margin-top: calc(var(--navbar-height) + 20px); /* Push title below navbar */
+  }
+}
