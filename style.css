@@ -485,3 +485,9 @@ body {
     margin-top: calc(var(--navbar-height) + 20px); /* Push title below navbar */
   }
 }
+@media (max-width: 600px) {
+  .main-container,
+  .about-container {
+    padding-top: calc(var(--navbar-height) + 40px); /* Adjust spacing for mobile */
+  }
+}
