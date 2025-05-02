@@ -491,3 +491,8 @@ body {
     padding-top: calc(var(--navbar-height) + 40px); /* Adjust spacing for mobile */
   }
 }
+body.dark-mode .site-footer {
+  background-color: var(--background-dark);
+  color: var(--text-light);
+  border-top: 1px solid var(--border-dark);
+}
