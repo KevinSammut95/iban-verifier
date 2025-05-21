@@ -172,6 +172,27 @@ document.addEventListener("DOMContentLoaded", () => {
     let bban = ""; // String to build the full BBAN
     let validationError = false;
 
+    // Special handling for Maltese (MT) account numbers: pad 12-digit numbers to 18 digits
+    if (selectedCountry === 'MT') {
+      for (let input of inputs) {
+        // The account number field for MT is defined with name/id 'accountNumber'
+        if (input.id === 'accountNumber') { 
+          if (input.value.length === 12) {
+            input.value = '000000' + input.value; // Pad with 6 leading zeros
+          }
+          // Update the dataset.length for the accountNumber field to reflect the new expected length
+          // This is important if the original bbanStructure for MT accountNumber has length 12
+          // and the validation loop below relies on dataset.length.
+          // However, the MT bbanStructure for accountNumber already expects 18 digits.
+          // So, if a 12-digit number is entered, this padding makes it 18, aligning with the
+          // expectedLength check later. If a user manually enters 18 digits, this block is skipped.
+          // If bbanStructure for MT accountNumber was 12, we would do:
+          // input.dataset.length = 18; 
+          break; // Processed account number field, exit this specific loop
+        }
+      }
+    }
+
     // Collect and validate BBAN parts from input fields
     for (let input of inputs) {
       const expectedLength = parseInt(input.dataset.length); // Expected length from data attribute
