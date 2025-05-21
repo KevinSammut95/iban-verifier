@@ -16,7 +16,7 @@
   <meta name="description" content="Verify the validity of an IBAN (International Bank Account Number) for free.  Our online tool checks IBAN format and structure.">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon"> <!- Add this line -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
   <nav class="navbar">
@@ -41,9 +41,10 @@
     
 
   <main>
-  <div class="main-container">
+  <section id="verifier-tool" class="main-container"> <!-- Changed div to section and added ID -->
     <h1>IBAN Verifier</h1>
 
+    <label for="ibanInput" class="sr-only">Enter IBAN to verify</label>
     <input type="text" id="ibanInput" placeholder="Enter IBAN to verify">
 
     <div class="button-group">
@@ -58,8 +59,9 @@
       <p id="countryName"></p>
       <p id="bankName" style="margin-top: 10px; font-weight: bold;"></p>
     </div>
-  
-    <section class="instructions">
+  </section> <!-- End of verifier-tool section -->
+
+  <section class="instructions main-container"> <!-- Added main-container for consistent styling if needed -->
       <h2>How to Use</h2>
       <ul>
         <li>Enter your full IBAN number in the input box above.</li>
@@ -67,9 +69,9 @@
         <li>If valid, you will see the country and bank (if detected).</li>
         <li>You can <strong>copy</strong> the IBAN or <strong>reset</strong> the form at any time.</li>
       </ul>
-    </div>
-  </div>
-    <div class="explanation">
+  </section> 
+
+  <section class="explanation main-container"> <!-- Added main-container for consistent styling if needed -->
       <h2>Understanding the Results</h2>
       <ul>
         <li><strong>✅ Valid IBAN:</strong> The IBAN format and check digits are correct. This means it's likely a real structure.</li>
@@ -77,7 +79,7 @@
         <li><strong>⚠️ Invalid Length:</strong> The IBAN format matches the country code but the number of characters is wrong.</li>
         <li><strong>❌ Unknown Country:</strong> The country code in the IBAN is not recognized.</li>
       </ul>
-    </div>
+    </section> <!-- Changed from div to section -->
 
   
   </main>
