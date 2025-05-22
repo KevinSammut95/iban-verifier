@@ -394,8 +394,8 @@ body.dark-mode .site-footer {
 
 @media (max-width: 600px) {
   body {
-    /* Previous padding-top: calc(var(--navbar-height) + 10px); */
-    padding-top: 180px; /* Increased padding for taller mobile navbar */
+    /* Previous padding-top: 180px; */
+    padding-top: 220px; /* Increased padding further for taller mobile navbar */
   }
   .navbar {
     flex-direction: column;
