@@ -394,7 +394,8 @@ body.dark-mode .site-footer {
 
 @media (max-width: 600px) {
   body {
-    padding-top: calc(var(--navbar-height) + 10px); /* Adjust body padding for mobile navbar */
+    /* Previous padding-top: calc(var(--navbar-height) + 10px); */
+    padding-top: 180px; /* Increased padding for taller mobile navbar */
   }
   .navbar {
     flex-direction: column;
@@ -419,9 +420,12 @@ body.dark-mode .site-footer {
     padding: 10px; /* Make tappable area larger */
   }
   .main-container, .about-container, .tool-container {
-    /* Content padding already handled by body's padding-top */
-    /* Remove specific padding-top here if previously set for mobile */
-    padding: 15px; /* Adjust padding for content containers */
+    /* Content padding primarily handled by body's padding-top */
+    /* Adjust other paddings as needed for smaller screens */
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    /* padding-top is intentionally omitted here to inherit or not interfere with body's top padding */
   }
 }
 
