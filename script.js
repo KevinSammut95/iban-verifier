@@ -1,27 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const darkToggle = document.getElementById("darkModeToggle");
-
-  // Set toggle switch based on saved preference
-  if (localStorage.getItem("darkMode") === "enabled") {
-    document.body.classList.add("dark-mode");
-    if (darkToggle) darkToggle.checked = true;
-  }
-
-  // Listen for toggle switch changes
-  if (darkToggle) {
-    darkToggle.addEventListener("change", () => {
-      document.body.classList.toggle("dark-mode");
-
-      if (document.body.classList.contains("dark-mode")) {
-        localStorage.setItem("darkMode", "enabled");
-      } else {
-        localStorage.setItem("darkMode", "disabled");
-      }
-    });
-  }
-});
-
-
 function verifyIBAN() {
   const ibanInput = document.getElementById("ibanInput");
   const iban = ibanInput.value.trim().replace(/\s+/g, '');
@@ -38,71 +14,6 @@ function verifyIBAN() {
   }
 
   const countryCode = iban.substring(0, 2).toUpperCase();
-
-  const countries = { // Keep this here for now.
-    AL: { name: "Albania", length: 28, flag: "🇦🇱" },
-    AD: { name: "Andorra", length: 24, flag: "🇦🇩" },
-    AT: { name: "Austria", length: 20, flag: "🇦🇹" },
-    AZ: { name: "Azerbaijan", length: 28, flag: "🇦🇿" },
-    BH: { name: "Bahrain", length: 22, flag: "🇧🇭" },
-    BE: { name: "Belgium", length: 16, flag: "🇧🇪" },
-    BA: { name: "Bosnia and Herzegovina", length: 20, flag: "🇧🇦" },
-    BR: { name: "Brazil", length: 29, flag: "🇧🇷" },
-    BG: { name: "Bulgaria", length: 22, flag: "🇧🇬" },
-    CR: { name: "Costa Rica", length: 22, flag: "🇨🇷" },
-    HR: { name: "Croatia", length: 21, flag: "🇭🇷" },
-    CY: { name: "Cyprus", length: 28, flag: "🇨🇾" },
-    CZ: { name: "Czech Republic", length: 24, flag: "🇨🇿" },
-    DK: { name: "Denmark", length: 18, flag: "🇩🇰" },
-    DO: { name: "Dominican Republic", length: 28, flag: "🇩🇴" },
-    EE: { name: "Estonia", length: 20, flag: "🇪🇪" },
-    FO: { name: "Faroe Islands", length: 18, flag: "🇫🇴" },
-    FI: { name: "Finland", length: 18, flag: "🇫🇮" },
-    FR: { name: "France", length: 27, flag: "🇫🇷" },
-    GE: { name: "Georgia", length: 22, flag: "🇬🇪" },
-    DE: { name: "Germany", length: 22, flag: "🇩🇪" },
-    GI: { name: "Gibraltar", length: 23, flag: "🇬🇮" },
-    GR: { name: "Greece", length: 27, flag: "🇬🇷" },
-    GL: { name: "Greenland", length: 18, flag: "🇬🇱" },
-    GT: { name: "Guatemala", length: 28, flag: "🇬🇹" },
-    HU: { name: "Hungary", length: 28, flag: "🇭🇺" },
-    IS: { name: "Iceland", length: 26, flag: "🇮🇸" },
-    IE: { name: "Ireland", length: 22, flag: "🇮🇪" },
-    IL: { name: "Israel", length: 23, flag: "🇮🇱" },
-    IT: { name: "Italy", length: 27, flag: "🇮🇹" },
-    JO: { name: "Jordan", length: 30, flag: "🇯🇴" },
-    KW: { name: "Kuwait", length: 30, flag: "🇰🇼" },
-    LV: { name: "Latvia", length: 21, flag: "🇱🇻" },
-    LB: { name: "Lebanon", length: 28, flag: "🇱🇧" },
-    LI: { name: "Liechtenstein", length: 21, flag: "🇱🇮" },
-    LT: { name: "Lithuania", length: 20, flag: "🇱🇹" },
-    LU: { name: "Luxembourg", length: 20, flag: "🇱🇺" },
-    MT: { name: "Malta", length: 31, flag: "🇲🇹" },
-    MR: { name: "Mauritania", length: 27, flag: "🇲🇷" },
-    MC: { name: "Monaco", length: 27, flag: "🇲🇨" },
-    ME: { name: "Montenegro", length: 22, flag: "🇲🇪" },
-    NL: { name: "Netherlands", length: 18, flag: "🇳🇱" },
-    MK: { name: "North Macedonia", length: 19, flag: "🇲🇰" },
-    NO: { name: "Norway", length: 15, flag: "🇳🇴" },
-    PS: { name: "Palestine", length: 29, flag: "🇵🇸" },
-    PL: { name: "Poland", length: 28, flag: "🇵🇱" },
-    PT: { name: "Portugal", length: 25, flag: "🇵🇹" },
-    QA: { name: "Qatar", length: 29, flag: "🇶🇦" },
-    RO: { name: "Romania", length: 24, flag: "🇷🇴" },
-    SM: { name: "San Marino", length: 27, flag: "🇸🇲" },
-    SA: { name: "Saudi Arabia", length: 24, flag: "🇸🇦" },
-    RS: { name: "Serbia", length: 22, flag: "🇷🇸" },
-    SK: { name: "Slovakia", length: 24, flag: "🇸🇰" },
-    SI: { name: "Slovenia", length: 19, flag: "🇸🇮" },
-    ES: { name: "Spain", length: 24, flag: "🇪🇸" },
-    SE: { name: "Sweden", length: 24, flag: "🇸🇪" },
-    CH: { name: "Switzerland", length: 21, flag: "🇨🇭" },
-    TN: { name: "Tunisia", length: 24, flag: "🇹🇳" },
-    TR: { name: "Turkey", length: 26, flag: "🇹🇷" },
-    AE: { name: "United Arab Emirates", length: 23, flag: "🇦🇪" },
-    GB: { name: "United Kingdom", length: 22, flag: "🇬🇧" },
-    VA: { name: "Vatican City", length: 22, flag: "🇻🇦" },
-  };
 
   if (countries[countryCode]) {
     const expectedLength = countries[countryCode].length;
@@ -222,16 +133,3 @@ function formatIBAN() {
   value = value.replace(/(.{4})/g, '$1 ').trim();
   ibanInput.value = value.toUpperCase();
 }
-
-function toggleDarkMode() {
-  const body = document.body;
-  body.classList.toggle("dark-mode");
-
-  // Save preference to localStorage
-  if (body.classList.contains("dark-mode")) {
-    localStorage.setItem("darkMode", "enabled");
-  } else {
-    localStorage.setItem("darkMode", "disabled");
-  }
-}
-

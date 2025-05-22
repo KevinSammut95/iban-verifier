@@ -19,25 +19,37 @@
   box-sizing: border-box;
 }
 
+/* Body and Main for Sticky Footer Layout */
 body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--background-light);
   color: var(--text-dark);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  padding: 20px;
+  margin: 0; /* Explicitly set margin to 0 for body */
+  padding: 20px; /* General padding */
+  padding-top: calc(var(--navbar-height) + 20px); /* Space for fixed navbar */
   transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+main { /* Ensures the main content area pushes the footer down */
+  flex-grow: 1;
+  width: 100%; /* Takes full width to contain centered content within .main-container etc. */
 }
 
 /* Typography */
 h1 {
-  color: var(--text-dark);
+  color: var(--text-dark); /* Preserved from original */
   margin-bottom: 20px;
   font-size: 2rem;
   text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 { /* Combined from later rule */
+  color: #222; /* Default for light mode */
+  font-weight: 600;
+  letter-spacing: 0.4px;
 }
 
 input[type="text"] {
@@ -98,11 +110,11 @@ button:hover {
 }
 
 /* Smooth Transitions */
-input, button {
+input, button { /* This rule was duplicated, kept one */
   transition: background-color var(--transition-speed), border-color var(--transition-speed);
 }
 
-/* Dark Mode */
+/* Dark Mode Specific Styles */
 body.dark-mode {
   background-color: var(--background-dark);
   color: var(--text-light);
@@ -115,7 +127,7 @@ body.dark-mode input {
 }
 
 body.dark-mode button {
-  background-color: #333;
+  background-color: #333; /* A slightly different shade than #555 for base */
   color: var(--text-light);
 }
 
@@ -124,11 +136,12 @@ body.dark-mode button:hover {
 }
 
 body.dark-mode #result {
-  color: #ffdcdc; /* Soft red for errors */
+  color: #ffdcdc; /* Soft red for errors, good */
 }
 
 body.dark-mode .navbar {
-  background-color: #1e1e1e;
+  background-color: #1e1e1e; /* Consistent with body dark bg */
+  border-bottom: 1px solid var(--border-dark); /* Added for consistency */
 }
 
 body.dark-mode .navbar a {
@@ -136,50 +149,58 @@ body.dark-mode .navbar a {
 }
 
 body.dark-mode .navbar a:hover {
-  color: #90caf9;
+  background-color: #333; /* Consistent hover for dark mode */
+  color: #90caf9; /* Specific hover text color from original */
 }
 
+body.dark-mode strong { /* From later rule */
+  color: #ffffff;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 { /* From later rule */
+  color: #f9f9f9;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+
 /* Navbar */
-.navbar {
+.navbar { /* This rule was duplicated, consolidated here */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--background-light);
+  background-color: var(--background-light); /* Default light mode */
   z-index: 1000;
   display: flex;
-  justify-content: center;
+  justify-content: space-between; /* Changed from center for nav-left/nav-right */
   align-items: center;
-  gap: 20px;
-  padding: 10px 0;
+  padding: 10px 20px; /* Added horizontal padding */
   border-bottom: 1px solid var(--border-light);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* gap: 20px; */ /* Removed as justify-content space-between handles spacing */
 }
 
-.navbar a {
+.navbar a { /* This rule was duplicated, consolidated here */
   text-decoration: none;
-  color: var(--text-dark);
+  color: var(--text-dark); /* Default light mode */
   font-weight: 600;
   padding: 6px 12px;
   border-radius: 6px;
-  transition: background-color var(--transition-speed);
+  transition: background-color var(--transition-speed), color var(--transition-speed); /* Added color */
 }
 
 .navbar a:hover {
-  background-color: #e0e0e0;
+  background-color: #e0e0e0; /* Default light mode hover */
 }
 
-.navbar.dark-mode {
-  background-color: var(--background-dark);
-}
-
-.navbar.dark-mode a {
-  color: var(--text-light);
-}
-
-.navbar.dark-mode a:hover {
-  background-color: #333;
-}
+/* .navbar.dark-mode rules were merged into body.dark-mode .navbar */
 
 /* Footer */
 .site-footer {
@@ -188,54 +209,83 @@ body.dark-mode .navbar a:hover {
   text-align: center;
   padding: 10px;
   width: 100%;
-  max-width: 1200px;
-  margin-top: auto; /* Push the footer to the bottom */
-  position: relative;
-  left: 30%;
-  transform: translateX(-50%);
+  max-width: 1200px; /* Limits footer width on large screens */
+  margin-top: auto; /* Helps push footer down with flex */
+  margin-left: auto; /* Centers footer when max-width is active */
+  margin-right: auto; /* Centers footer when max-width is active */
   border-top: 1px solid var(--border-light);
   transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+  font-size: 0.85em; /* From later rule */
 }
 
-/* Responsive Design */
+body.dark-mode .site-footer { /* From later rule */
+  background-color: var(--background-dark);
+  color: var(--text-light);
+  border-top: 1px solid var(--border-dark);
+}
+
+/* Responsive Design for Navbar */
 @media (max-width: 600px) {
   .navbar {
-    flex-direction: column;         /* Stack links vertically */
-    align-items: center;            /* Center-align everything */
-    gap: 6px;                       /* Less space between items */
-    padding: 12px;                  /* More padding around navbar */
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px; /* Adjusted padding for column layout */
   }
 
-  .dark-mode-toggle {
-    margin-top: 8px;                /* Add space above dark mode switch */
+  .navbar .nav-left, .navbar .nav-right { /* Ensure nav sections also stack */
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .navbar .nav-left a, .navbar .nav-right .dark-mode-toggle {
+    margin-bottom: 5px; /* Spacing for stacked items */
+  }
+
+  .dark-mode-toggle { /* Original rule from near bottom */
+    margin-top: 8px; 
+  }
+
+  /* Adjust main content padding for potentially taller mobile navbar */
+  body {
+    padding-top: calc(var(--navbar-height) + 70px); /* Increased to accommodate taller navbar */
+  }
+  .main-container,
+  .about-container { /* This rule was duplicated, consolidated */
+     /* padding-top: calc(var(--navbar-height) + 40px); /* Original */
+     /* The body padding-top should generally suffice, specific container padding might not be needed
+        or should be reviewed if content is still obscured. Let's rely on body padding for now. */
+  }
+   h1 { /* Original rule from near bottom */
+    /* margin-top: calc(var(--navbar-height) + 20px); */ /* Rely on body padding-top */
   }
 }
-
-.site-footer {
-    font-size: 0.85em;
-  }
-
-  .about-container {
-    font-size: 0.95em;
-    padding: 1em;
-  }
 
 
 /* Toggle Switch */
-.toggle-switch {
+.dark-mode-toggle { /* This rule was duplicated, consolidated here */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0; /* Removed default margin: 10px, navbar padding will handle spacing */
+  /* margin-left: auto; */ /* This is handled by nav-right in navbar structure now */
+}
+
+.toggle-switch { /* This rule was duplicated, consolidated here */
   position: relative;
   display: inline-block;
   width: 50px;
   height: 26px;
 }
 
-.toggle-switch input {
+.toggle-switch input { /* This rule was duplicated, consolidated here */
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-.slider {
+.slider { /* This rule was duplicated, consolidated here */
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -243,11 +293,11 @@ body.dark-mode .navbar a:hover {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  transition: background-color var(--transition-speed);
+  transition: background-color var(--transition-speed); /* Standardized transition */
   border-radius: 26px;
 }
 
-.slider:before {
+.slider:before { /* This rule was duplicated, consolidated here */
   position: absolute;
   content: "";
   height: 20px;
@@ -255,23 +305,16 @@ body.dark-mode .navbar a:hover {
   left: 3px;
   bottom: 3px;
   background-color: white;
-  transition: transform var(--transition-speed);
+  transition: transform var(--transition-speed); /* Standardized transition */
   border-radius: 50%;
 }
 
-input:checked + .slider {
-  background-color: var(--secondary-color);
+input:checked + .slider { /* This rule was duplicated, consolidated here */
+  background-color: var(--secondary-color); /* Use variable */
 }
 
-input:checked + .slider:before {
+input:checked + .slider:before { /* This rule was duplicated, consolidated here */
   transform: translateX(24px);
-}
-
-.dark-mode-toggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 10px;
 }
 
 .toggle-icon {
@@ -279,15 +322,16 @@ input:checked + .slider:before {
 }
 
 /* About Container */
-.about-container {
+.about-container { /* This rule was duplicated, consolidated here */
   max-width: 800px;
-  margin: 20px auto;
+  margin: 20px auto; /* Keep auto margins for centering */
   padding: 20px;
   background: #f9f9f9;
   border-radius: 10px;
-  font-size: 1.1em;
+  font-size: 1.1em; /* Original */
   line-height: 1.6;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  /* font-size: 0.95em; padding: 1em; */ /* From a later, conflicting rule, chose original */
 }
 
 .about-container a {
@@ -295,7 +339,7 @@ input:checked + .slider:before {
 }
 
 .about-container strong {
-  color: var(--text-dark);
+  color: var(--text-dark); /* Ensure this is not overridden by body.dark-mode strong */
 }
 
 body.dark-mode .about-container {
@@ -304,7 +348,7 @@ body.dark-mode .about-container {
   border: 1px solid var(--border-dark);
 }
 
-/* Fade-in Animation */
+/* Fade-in Animation for Main Container */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -319,11 +363,12 @@ body.dark-mode .about-container {
 .main-container {
   animation: fadeIn 0.6s ease-in-out;
   max-width: 800px;
-  margin: 20px auto;
+  margin: 20px auto; /* Keep auto margins for centering */
   padding: 20px;
-  background: #f9f9f9;
+  background: #f9f9f9; /* Original */
   border-radius: 10px;
   text-align: center;
+  /* padding-top: 100px; */ /* Removed, body padding-top should handle navbar */
 }
 
 body.dark-mode .main-container {
@@ -331,168 +376,8 @@ body.dark-mode .main-container {
   color: var(--text-light);
 }
 
-/* Margin Adjustments */
-.main-container {
-  padding-top: 100px; /* Prevent title from being hidden under navbar */
-}
-@media (max-width: 600px) {
-  .main-container {
-    padding-top: 120px; /* Extra space for mobile navbar */
-  }
-}
-
 /* Remove bullets from lists */
 ul {
   list-style-type: none;
-  padding-left: 0;
-}
-
-/* Align dark mode toggle with the navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #e8e8e8;
-  padding: 10px 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.navbar .dark-mode-toggle {
-  margin-left: auto; /* Push the toggle to the right */
-  display: flex;
-  align-items: center;
-}
-
-.toggle-switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 26px;
-}
-
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 26px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #4CAF50;
-}
-
-input:checked + .slider:before {
-  transform: translateX(24px);
-}
-
-/* Navbar default styling */
-.navbar a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: background 0.3s ease;
-}
-
-.navbar a:hover {
-  background-color: #e0e0e0;
-}
-
-body.dark-mode .navbar {
-  background-color: #1e1e1e;
-  border-bottom: 1px solid #444;
-}
-
-body.dark-mode .navbar a {
-  color: #f0f0f0;
-}
-
-body.dark-mode .navbar a:hover {
-  background-color: #333;
-}
-body.dark-mode strong {
-  color: #ffffff; /* or #f1f1f1, or another bright color */
-}
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode h4,
-body.dark-mode h5,
-body.dark-mode h6 {
-  color: #f9f9f9;       /* Soft bright tone for readability */
-  font-weight: 600;     /* Slightly bold for emphasis */
-  letter-spacing: 0.5px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.4); /* Subtle depth */
-}
-h1, h2, h3, h4, h5, h6 {
-  color: #222;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-}
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Make the body at least the height of the viewport */
-  margin: 0; /* Remove default body margin */
-}
-
-.content {
-  flex-grow: 1; /* Allow the content to take up available vertical space */
-}
-
-footer {
-  background-color: #f0f0f0; /* Just for visual distinction */
-  padding: 10px;
-  text-align: center;
-}
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: var(--background-light);
-  color: var(--text-dark);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  padding: 20px;
-  padding-top: calc(var(--navbar-height) + 20px); /* Add padding below the navbar */
-  transition: background-color var(--transition-speed), color var(--transition-speed);
-}
-@media (max-width: 600px) {
-  h1 {
-    margin-top: calc(var(--navbar-height) + 20px); /* Push title below navbar */
-  }
-}
-@media (max-width: 600px) {
-  .main-container,
-  .about-container {
-    padding-top: calc(var(--navbar-height) + 40px); /* Adjust spacing for mobile */
-  }
-}
-body.dark-mode .site-footer {
-  background-color: var(--background-dark);
-  color: var(--text-light);
-  border-top: 1px solid var(--border-dark);
+  padding-left: 0; /* Consistent with reset */
 }
