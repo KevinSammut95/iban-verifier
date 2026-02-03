@@ -1,11 +1,14 @@
+/**
+ * Dark Mode Toggle - Single Source of Truth
+ * Uses localStorage key: 'darkMode' (values: 'enabled' | 'disabled')
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("darkModeToggle");
 
-  // Determine initial mode (default to light if nothing is stored)
-  const darkModePref = localStorage.getItem("dark-mode");
-  const isDark = darkModePref === "true";
+  // Check saved preference (default to light mode)
+  const isDarkEnabled = localStorage.getItem("darkMode") === "enabled";
 
-  if (isDark) {
+  if (isDarkEnabled) {
     document.body.classList.add("dark-mode");
     if (toggle) toggle.checked = true;
   } else {
@@ -13,14 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (toggle) toggle.checked = false;
   }
 
-  // Update mode on toggle
+  // Handle toggle changes
   if (toggle) {
     toggle.addEventListener("change", () => {
       const enableDark = toggle.checked;
       document.body.classList.toggle("dark-mode", enableDark);
-      localStorage.setItem("dark-mode", enableDark);
+      localStorage.setItem("darkMode", enableDark ? "enabled" : "disabled");
     });
   }
 });
-
-

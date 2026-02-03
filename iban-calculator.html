@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W7JG008L79"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-W7JG008L79');
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IBAN Calculator | Generate IBAN from BBAN</title>
-  <meta name="description" content="Calculate IBAN from BBAN. Select country and enter bank details to generate IBAN.">
+  <title>IBAN Calculator Malta | Generate IBAN from Account Number</title>
+  <meta name="description"
+    content="Calculate your Maltese IBAN from your bank and account number. Select your bank and enter account details to generate IBAN.">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
+
 <body>
   <nav class="navbar">
     <div class="nav-left">
       <a href="index.html">Home</a>
       <a href="iban-calculator.html">IBAN Calculator</a>
       <a href="about.html">About IBAN</a>
-      
-      
     </div>
     <div class="nav-right">
       <div class="dark-mode-toggle">
@@ -29,109 +38,296 @@
       </div>
     </div>
   </nav>
-    
+
   <main>
-  <h1>IBAN Calculator</h1>
+    <h1>IBAN Calculator</h1>
 
-  <div class="tool-container">
-    <label for="countrySelect">Select Country:</label>
-    <select id="countrySelect"></select>
+    <div class="tool-container">
+      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
+        Generate your IBAN by selecting your bank and entering your account details.
+      </p>
 
-    <label for="bbanInput">Enter BBAN:</label>
-    <input type="text" id="bbanInput" placeholder="Enter your Basic Bank Account Number" />
+      <label for="countrySelect">Country:</label>
+      <select id="countrySelect">
+        <option value="MT">🇲🇹 Malta</option>
+        <option value="DE">🇩🇪 Germany</option>
+        <option value="GB">🇬🇧 United Kingdom</option>
+        <option value="FR">🇫🇷 France</option>
+        <option value="NL">🇳🇱 Netherlands</option>
+        <option value="ES">🇪🇸 Spain</option>
+      </select>
 
-    <button onclick="calculateIBAN()">Calculate IBAN</button>
+      <div id="bankSelectContainer">
+        <label for="bankSelect">Select Your Bank:</label>
+        <select id="bankSelect"></select>
+      </div>
 
-    <div id="ibanResult" class="status-message"></div>
-  </div>
+      <div id="dynamicFields"></div>
+
+      <button id="calculateBtn">Calculate IBAN</button>
+
+      <div id="ibanResult" class="status-message"></div>
+
+      <div id="bicDisplay" style="margin-top: 1rem;"></div>
+    </div>
+
+    <div class="explanation" style="margin-top: 2rem;">
+      <h2>How It Works</h2>
+      <ul>
+        <li>Select your country and bank from the dropdowns</li>
+        <li>Enter your branch code and account number</li>
+        <li>The calculator will generate your complete IBAN</li>
+        <li>Your IBAN includes: Country Code + Check Digits + Bank Code + Account Number</li>
+      </ul>
+    </div>
   </main>
+
   <footer class="site-footer">
     &copy; <span id="year"></span> IBAN Verifier. All rights reserved.
   </footer>
 
   <script>
-    const ibanFormats = {
-      AL: { length: 28, example: 'AL47 2121 1009 0000 0002 3569 8741' },
-      AD: { length: 24, example: 'AD12 0001 2030 2003 5910 0100' },
-      AT: { length: 20, example: 'AT61 1904 3002 3457 3201' },
-      BE: { length: 16, example: 'BE68 5390 0754 7034' },
-      BG: { length: 22, example: 'BG80 BNBG 9661 1020 3456 78' },
-      HR: { length: 21, example: 'HR12 1001 0051 8630 0016 0' },
-      CY: { length: 28, example: 'CY17 0020 0128 0000 0012 0052 7600' },
-      CZ: { length: 24, example: 'CZ65 0800 0000 1920 0014 5399' },
-      DK: { length: 18, example: 'DK50 0040 0440 1162 43' },
-      EE: { length: 20, example: 'EE38 2200 2210 2014 5685' },
-      FI: { length: 18, example: 'FI21 1234 5600 0007 85' },
-      FR: { length: 27, example: 'FR14 2004 1010 0505 0001 3M02 606' },
-      DE: { length: 22, example: 'DE89 3704 0044 0532 0130 00' },
-      GR: { length: 27, example: 'GR16 0110 1250 0000 0001 2300 695' },
-      HU: { length: 28, example: 'HU42 1177 3016 1111 1018 0000 0000' },
-      IE: { length: 22, example: 'IE29 AIBK 9311 5212 3456 78' },
-      IT: { length: 27, example: 'IT60 X054 2811 1010 0000 0123 456' },
-      LV: { length: 21, example: 'LV80 BANK 0000 4351 9500 1' },
-      LT: { length: 20, example: 'LT12 1000 0111 0100 1000' },
-      LU: { length: 20, example: 'LU28 0019 4006 4475 0000' },
-      MT: { length: 31, example: 'MT84 MALT 0110 0001 2345 MTLC AST0 01S' },
-      NL: { length: 18, example: 'NL91 ABNA 0417 1643 00' },
-      PL: { length: 28, example: 'PL61 1090 1014 0000 0712 1981 2874' },
-      PT: { length: 25, example: 'PT50 0002 0123 1234 5678 9015 4' },
-      RO: { length: 24, example: 'RO49 AAAA 1B31 0075 9384 0000' },
-      SK: { length: 24, example: 'SK31 1200 0000 1987 4263 7541' },
-      SI: { length: 19, example: 'SI56 1910 0000 0123 438' },
-      ES: { length: 24, example: 'ES91 2100 0418 4502 0005 1332' },
-      SE: { length: 24, example: 'SE45 5000 0000 0583 9825 7466' },
-      GB: { length: 22, example: 'GB29 NWBK 6016 1331 9268 19' }
+    // Bank databases by country with BIC codes and IBAN structure
+    const bankData = {
+      MT: {
+        ibanLength: 31,
+        banks: [
+          { code: "VALL", name: "Bank of Valletta", bic: "VALLMTMT" },
+          { code: "APSB", name: "APS Bank", bic: "APSBMTMT" },
+          { code: "MMEB", name: "HSBC Malta", bic: "MMEBMTMT" },
+          { code: "LOMB", name: "Lombard Bank", bic: "LBMAMTMT" },
+          { code: "BNIF", name: "BNF Bank", bic: "BNIFMTMT" },
+          { code: "FIMB", name: "FIMBank", bic: "FIMBMTM3" },
+          { code: "MEDR", name: "MeDirect Bank", bic: "MBWMMTMT" },
+          { code: "FCMF", name: "FCM Bank", bic: "FCMFMTMT" },
+          { code: "IIGB", name: "IIG Bank", bic: "IIGBMTMT" },
+          { code: "IZOL", name: "Izola Bank", bic: "IZOLMTMT" },
+          { code: "VOCB", name: "Novum Bank", bic: "VOCBMTMT" },
+          { code: "AGRK", name: "Lidion Bank", bic: "AGRKMTMT" },
+          { code: "ECMB", name: "ECCM Bank", bic: "ECMBMTMT" },
+          { code: "FEMA", name: "Multitude Bank", bic: "FEMAMTMT" },
+          { code: "SBMT", name: "Sparkasse Bank Malta", bic: "SBMTMTMT" },
+          { code: "ABNG", name: "Access Bank Malta", bic: "ABNGMTMT" },
+          { code: "MFCB", name: "MFC Merchant Bank", bic: "MFCBMTMS" }
+        ],
+        fields: [
+          { id: "branchCode", label: "Branch/Sort Code", length: 5, placeholder: "e.g., 22011" },
+          { id: "accountNumber", label: "Account Number", length: 18, placeholder: "Your account number" }
+        ]
+      },
+      DE: {
+        ibanLength: 22,
+        banks: [
+          { code: "3704", name: "Commerzbank", bic: "COBADEFF" },
+          { code: "3707", name: "Deutsche Bank", bic: "DEUTDEFF" },
+          { code: "1001", name: "Postbank", bic: "PBNKDEFF" },
+          { code: "3003", name: "ING-DiBa", bic: "INGDDEFF" }
+        ],
+        fields: [
+          { id: "bankCode", label: "Bank Code (BLZ)", length: 8, placeholder: "8-digit bank code" },
+          { id: "accountNumber", label: "Account Number", length: 10, placeholder: "10-digit account" }
+        ]
+      },
+      GB: {
+        ibanLength: 22,
+        banks: [
+          { code: "NWBK", name: "NatWest", bic: "NWBKGB2L" },
+          { code: "BARC", name: "Barclays", bic: "BARCGB22" },
+          { code: "LOYD", name: "Lloyds Bank", bic: "LOYDGB2L" },
+          { code: "HSBC", name: "HSBC UK", bic: "HBUKGB4B" }
+        ],
+        fields: [
+          { id: "sortCode", label: "Sort Code", length: 6, placeholder: "e.g., 601613" },
+          { id: "accountNumber", label: "Account Number", length: 8, placeholder: "8-digit account" }
+        ]
+      },
+      FR: {
+        ibanLength: 27,
+        banks: [
+          { code: "2004", name: "La Banque Postale", bic: "PSSTFRPP" },
+          { code: "3000", name: "BNP Paribas", bic: "BNPAFRPP" },
+          { code: "1027", name: "Société Générale", bic: "SOGEFRPP" }
+        ],
+        fields: [
+          { id: "bankCode", label: "Bank Code", length: 5, placeholder: "5-digit code" },
+          { id: "branchCode", label: "Branch Code", length: 5, placeholder: "5-digit code" },
+          { id: "accountNumber", label: "Account Number", length: 11, placeholder: "11-char account" },
+          { id: "checkDigits", label: "National Check", length: 2, placeholder: "2 digits" }
+        ]
+      },
+      NL: {
+        ibanLength: 18,
+        banks: [
+          { code: "ABNA", name: "ABN AMRO", bic: "ABNANL2A" },
+          { code: "INGB", name: "ING Bank", bic: "INGBNL2A" },
+          { code: "RABO", name: "Rabobank", bic: "RABONL2U" }
+        ],
+        fields: [
+          { id: "accountNumber", label: "Account Number", length: 10, placeholder: "10-digit account" }
+        ]
+      },
+      ES: {
+        ibanLength: 24,
+        banks: [
+          { code: "2100", name: "CaixaBank", bic: "CAIXESBB" },
+          { code: "0049", name: "Santander", bic: "BSCHESMM" },
+          { code: "0182", name: "BBVA", bic: "BBVAESMM" }
+        ],
+        fields: [
+          { id: "bankCode", label: "Bank Code", length: 4, placeholder: "4-digit code" },
+          { id: "branchCode", label: "Branch Code", length: 4, placeholder: "4-digit code" },
+          { id: "checkDigits", label: "Check Digits", length: 2, placeholder: "2 digits" },
+          { id: "accountNumber", label: "Account Number", length: 10, placeholder: "10-digit account" }
+        ]
+      }
     };
 
     const countrySelect = document.getElementById('countrySelect');
-    for (const code in ibanFormats) {
-      const option = document.createElement('option');
-      option.value = code;
-      option.textContent = code;
-      countrySelect.appendChild(option);
+    const bankSelect = document.getElementById('bankSelect');
+    const dynamicFields = document.getElementById('dynamicFields');
+    const resultEl = document.getElementById('ibanResult');
+    const bicDisplay = document.getElementById('bicDisplay');
+
+    function updateBankDropdown() {
+      const country = countrySelect.value;
+      const data = bankData[country];
+
+      bankSelect.innerHTML = '';
+      data.banks.forEach(bank => {
+        const option = document.createElement('option');
+        option.value = bank.code;
+        option.textContent = `${bank.name} (${bank.bic})`;
+        option.dataset.bic = bank.bic;
+        bankSelect.appendChild(option);
+      });
+
+      updateDynamicFields();
+      updateBicDisplay();
+    }
+
+    function updateDynamicFields() {
+      const country = countrySelect.value;
+      const data = bankData[country];
+
+      dynamicFields.innerHTML = '';
+      data.fields.forEach(field => {
+        const wrapper = document.createElement('div');
+        wrapper.style.marginBottom = '1rem';
+
+        const label = document.createElement('label');
+        label.setAttribute('for', field.id);
+        label.textContent = field.label + ':';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.id = field.id;
+        input.placeholder = field.placeholder;
+        input.maxLength = field.length;
+        input.dataset.length = field.length;
+
+        wrapper.appendChild(label);
+        wrapper.appendChild(input);
+        dynamicFields.appendChild(wrapper);
+      });
+    }
+
+    function updateBicDisplay() {
+      const selectedOption = bankSelect.options[bankSelect.selectedIndex];
+      if (selectedOption) {
+        bicDisplay.innerHTML = `<small style="color: var(--text-muted);">BIC/SWIFT: <code style="background: var(--border-light); padding: 2px 6px; border-radius: 4px;">${selectedOption.dataset.bic}</code></small>`;
+      }
     }
 
     function calculateIBAN() {
       const country = countrySelect.value;
-      const bban = document.getElementById('bbanInput').value.replace(/\s+/g, '');
+      const data = bankData[country];
+      const bankCode = bankSelect.value;
 
-      if (!country || !bban) {
-        document.getElementById('ibanResult').textContent = 'Please select a country and enter BBAN.';
-        return;
-      }
+      // Gather all field values
+      let bban = bankCode; // Start with bank code
+      let hasError = false;
 
-      const ibanPrefix = country + '00' + bban;
+      data.fields.forEach(field => {
+        const input = document.getElementById(field.id);
+        const value = input.value.replace(/\s+/g, '').toUpperCase();
+
+        if (value.length === 0) {
+          resultEl.innerHTML = `<span class="status-error">⚠️ Please enter ${field.label}.</span>`;
+          hasError = true;
+          return;
+        }
+
+        // Pad with zeros if needed for numeric fields
+        const paddedValue = value.padStart(field.length, '0');
+        if (paddedValue.length > field.length) {
+          resultEl.innerHTML = `<span class="status-error">⚠️ ${field.label} is too long (max ${field.length} characters).</span>`;
+          hasError = true;
+          return;
+        }
+
+        bban += paddedValue;
+      });
+
+      if (hasError) return;
+
+      // Calculate check digits
       const rearranged = bban + country + '00';
-
       const converted = rearranged
         .toUpperCase()
         .split('')
         .map(char => (/[A-Z]/.test(char) ? char.charCodeAt(0) - 55 : char))
         .join('');
 
-      const checksum = 98 - (BigInt(converted) % 97n);
+      const checksum = 98 - Number(BigInt(converted) % 97n);
       const formattedChecksum = checksum.toString().padStart(2, '0');
       const iban = country + formattedChecksum + bban;
 
+      // Verify length
+      if (iban.length !== data.ibanLength) {
+        resultEl.innerHTML = `<span class="status-error">⚠️ Generated IBAN has incorrect length. Expected ${data.ibanLength}, got ${iban.length}. Please check your input.</span>`;
+        return;
+      }
+
       const formattedIBAN = iban.replace(/(.{4})/g, '$1 ').trim();
-      document.getElementById('ibanResult').textContent = `Calculated IBAN: ${formattedIBAN}`;
+      const selectedBank = data.banks.find(b => b.code === bankCode);
+
+      resultEl.innerHTML = `
+        <div style="margin-top: 1rem;">
+          <span class="status-success" style="font-size: 1.1rem;">✅ Generated IBAN:</span>
+          <div style="font-size: 1.4rem; font-weight: 700; margin: 0.75rem 0; letter-spacing: 1px; font-family: monospace;">
+            ${formattedIBAN}
+          </div>
+          <button onclick="copyGeneratedIBAN('${iban}')" style="margin-top: 0.5rem;">📋 Copy IBAN</button>
+        </div>
+      `;
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const toggle = document.getElementById("darkModeToggle");
-      const isDark = localStorage.getItem("dark-mode") === "true";
-      if (isDark) {
-        document.body.classList.add("dark-mode");
-        toggle.checked = true;
-      }
-      toggle.addEventListener("change", () => {
-        document.body.classList.toggle("dark-mode");
-        localStorage.setItem("dark-mode", document.body.classList.contains("dark-mode"));
+    function copyGeneratedIBAN(iban) {
+      navigator.clipboard.writeText(iban).then(() => {
+        const btn = event.target;
+        btn.textContent = '✅ Copied!';
+        setTimeout(() => btn.textContent = '📋 Copy IBAN', 2000);
       });
-      document.getElementById("year").textContent = new Date().getFullYear();
+    }
+
+    // Event listeners
+    countrySelect.addEventListener('change', updateBankDropdown);
+    bankSelect.addEventListener('change', updateBicDisplay);
+    document.getElementById('calculateBtn').addEventListener('click', calculateIBAN);
+
+    // Enter key support
+    dynamicFields.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        calculateIBAN();
+      }
     });
+
+    // Initialize
+    updateBankDropdown();
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
-  <script src="iban-calculator.js"></script>
   <script src="darkmode.js"></script>
 </body>
+
 </html>

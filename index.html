@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-W7JG008L79"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-W7JG008L79');
-</script>
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W7JG008L79"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-W7JG008L79');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Free IBAN Verifier Tool | Check IBAN Validity</title>
-  <meta name="description" content="Verify the validity of an IBAN (International Bank Account Number) for free.  Our online tool checks IBAN format and structure.">
+  <meta name="description"
+    content="Verify the validity of an IBAN (International Bank Account Number) for free. Our online tool checks IBAN format and structure.">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon"> <!- Add this line -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
+
 <body>
   <nav class="navbar">
     <div class="nav-left">
       <a href="index.html">Home</a>
       <a href="iban-calculator.html">IBAN Calculator</a>
       <a href="about.html">About IBAN</a>
-      
-      
     </div>
     <div class="nav-right">
       <div class="dark-mode-toggle">
@@ -38,48 +38,46 @@
       </div>
     </div>
   </nav>
-    
 
   <main>
-  <div class="main-container">
-    <h1>IBAN Verifier</h1>
+    <div class="main-container">
+      <h1>IBAN Verifier</h1>
 
-    <input type="text" id="ibanInput" placeholder="Enter IBAN to verify">
+      <input type="text" id="ibanInput" placeholder="Enter IBAN to verify (e.g., DE89 3704 0044 0532 0130 00)">
 
-    <div class="button-group">
-      <button onclick="verifyIBAN()">Verify</button>
-      <button onclick="copyIBAN()">Copy IBAN</button>
-      <button onclick="resetForm()">Reset</button>
+      <div class="button-group">
+        <button onclick="verifyIBAN()">Verify</button>
+        <button onclick="copyIBAN()">Copy IBAN</button>
+        <button onclick="resetForm()">Reset</button>
+      </div>
+
+      <div class="status-messages">
+        <p id="copyMessage">✅ Copied!</p>
+        <p id="result"></p>
+        <p id="countryName"></p>
+        <p id="bankName"></p>
+      </div>
+
+      <section class="instructions">
+        <h2>How to Use</h2>
+        <ul>
+          <li>Enter your full IBAN number in the input box above.</li>
+          <li>Click <strong>Verify</strong> to check if the IBAN is valid.</li>
+          <li>If valid, you will see the country and bank (if detected).</li>
+          <li>Press <strong>Enter</strong> to verify or <strong>Escape</strong> to reset.</li>
+        </ul>
+      </section>
     </div>
 
-    <div class="status-messages">
-      <p id="copyMessage">✅ Copied!</p>
-      <p id="result"></p>
-      <p id="countryName"></p>
-      <p id="bankName" style="margin-top: 10px; font-weight: bold;"></p>
-    </div>
-  
-    <section class="instructions">
-      <h2>How to Use</h2>
-      <ul>
-        <li>Enter your full IBAN number in the input box above.</li>
-        <li>Click <strong>Verify</strong> to check if the IBAN is valid.</li>
-        <li>If valid, you will see the country and bank (if detected).</li>
-        <li>You can <strong>copy</strong> the IBAN or <strong>reset</strong> the form at any time.</li>
-      </ul>
-    </div>
-  </div>
     <div class="explanation">
       <h2>Understanding the Results</h2>
       <ul>
-        <li><strong>✅ Valid IBAN:</strong> The IBAN format and check digits are correct. This means it's likely a real structure.</li>
-        <li><strong>❌ Invalid IBAN:</strong> The IBAN fails validation — it's either incorrectly typed or not real.</li>
-        <li><strong>⚠️ Invalid Length:</strong> The IBAN format matches the country code but the number of characters is wrong.</li>
-        <li><strong>❌ Unknown Country:</strong> The country code in the IBAN is not recognized.</li>
+        <li><strong>✅ Valid IBAN:</strong> The IBAN format and check digits are correct.</li>
+        <li><strong>❌ Invalid IBAN:</strong> The IBAN fails validation — check for typos.</li>
+        <li><strong>⚠️ Invalid Length:</strong> The number of characters doesn't match the expected length.</li>
+        <li><strong>❌ Unknown Country:</strong> The country code is not recognized.</li>
       </ul>
     </div>
-
-  
   </main>
 
   <footer class="site-footer">
@@ -88,9 +86,6 @@
 
   <script src="script.js"></script>
   <script src="darkmode.js"></script>
-  
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
 </body>
+
 </html>
